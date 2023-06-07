@@ -1,0 +1,72 @@
+{
+    "layer": "top",
+    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-right": [
+	"tray",
+	"custom/pipewire",
+        "custom/brightness",
+	"battery",
+	"clock",
+        "custom/power"
+    ],
+     "sway/workspaces": {
+         "disable-scroll": true,
+         "all-outputs": true,
+         "format": "{name}: {icon}",
+         "format-icons": {
+	     "1": " ",
+	     "2": " ",
+	     "3": " ",
+	     "4": " ",
+	     "5": " ",
+	     "6": " ",
+	     "7": " ",
+	     "8": " ",
+	     "9": " ",
+	 }
+     },
+    "battery": {
+	"states": {
+	    "warning": 20,
+	    "critical": 10
+	},
+	"format": "{icon}({capacity}%)",
+	"format-charging": " ({capacity}%)",
+	"format-icons": ["", "", "", "", "", ""]
+    },
+    "clock": {
+	"format": "{:%a %d %b %H:%M}",
+	"tooltip-format": "<big>{:%B %Y}</big>\n\n<tt><small>{calendar}</small></tt>"
+    },
+    "custom/pipewire": {
+        "exec": "pw-volume status",
+        "return-type": "json",
+        "interval": "once",
+        "signal": 8,
+        "format": "{icon}({percentage}%)",
+        "format-icons": {
+            "mute": "",
+            "default": ["", "", ""]
+        },
+        "on-scroll-up": "pw-volume change +2.5%; pkill -RTMIN+8 waybar",
+        "on-scroll-down": "pw-volume change -2.5%; pkill -RTMIN+8 waybar"
+    },
+    "custom/brightness": {
+	"format": "{icon} {}",
+	//"max-length": 15,
+	"interval": 10,
+	"exec": "brightnessctl | grep Current | awk '{print $4}'",
+        "format-icons": {
+            "default": ["","", ""]
+        },
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-"
+    },
+    "custom/power": {
+    "format": "{icon} {}",
+    "format-icons": {
+        "default": [""]
+    },
+    "on-click": "swaynag -t warning -m 'Power Menu Options' -b 'Logout' 'swaymsg exit' -b 'Reboot' 'swaymsg exec doas /bin/reboot' -b 'Shutdown' 'swaymsg exec doas /bin/reboot'"
+    }
+}

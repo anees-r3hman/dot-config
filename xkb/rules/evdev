@@ -1,0 +1,5 @@
+! option = symbols
+  custom:foo = +custom(foo)
+
+// Include the system 'evdev' file
+! include %S/evdev
